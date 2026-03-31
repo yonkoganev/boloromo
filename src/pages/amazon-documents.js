@@ -1,21 +1,25 @@
 import { useState } from "react";
 import PageLayout from "../shared/PageLayout";
 import TreeFileManager from "../shared/TreeFileManager";
-import UploadDirexModal from "../components/direx/UploadDirexModal";
+import UploadAmazonDocModal from "../components/amazon-documents/UploadAmazonDocModal";
 
-export default function DirexReportsPage() {
+export default function AmazonDocumentsPage() {
   const [openUpload, setOpenUpload] = useState(false);
 
   return (
-    <PageLayout title="Direx Reports">
+    <PageLayout title="Amazon Documents">
       <TreeFileManager
-        category="direx"
-        treeMode="year-month"
-        filterFn={(f, s) => f.year === s.year && f.month === s.month}
-        uploadLabel="Upload Direx Report"
+        category="amazon_document"
+        treeMode="company-year-month"
+        filterFn={(f, s) =>
+          f.company === s.company &&
+          f.year === s.year &&
+          f.month === s.month
+        }
+        uploadLabel="Upload Documents"
         onUploadClick={() => setOpenUpload(true)}
         uploadModal={
-          <UploadDirexModal
+          <UploadAmazonDocModal
             open={openUpload}
             onClose={() => setOpenUpload(false)}
             onUploaded={() => {}}

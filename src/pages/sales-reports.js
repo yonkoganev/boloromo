@@ -1,20 +1,33 @@
-import { useRouter } from "next/navigation";
-import { Box, Typography, Button } from "@mui/material";
-import FileManager from "../components/sales-reports/FileManager";
-import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
+import { useState } from "react";
+import PageLayout from "../shared/PageLayout";
+import TreeFileManager from "../shared/TreeFileManager";
+import UploadSalesModal from "../components/sales-reports/UploadSalesModal";
 
-export default function DirexReportsPage() {
-  const router = useRouter();
+export default function SalesReportsPage() {
+  const [openUpload, setOpenUpload] = useState(false);
+  const [refresh, setRefresh] = useState(0);
 
   return (
-    <Box p={3}>
-      <Box display="flex" alignItems="center" mb={3}>
-        <Button startIcon={<KeyboardBackspaceRoundedIcon />} onClick={() => router.push("/")}>
-          Back
-        </Button>
-        <Typography variant="h5">Sales Reports</Typography>
-      </Box>
-      <FileManager />
-    </Box>
+    <PageLayout title="Sales Reports">
+      <TreeFileManager
+        category="sales"
+        treeMode="company-marketplace-year-month"
+        filterFn={(f, s) =>
+          f.company === s.company &&
+          f.marketPlace === s.marketPlace &&
+          f.year === s.year &&
+          f.month === s.month
+        }
+        uploadLabel="Upload Sales Report"
+        onUploadClick={() => setOpenUpload(true)}
+        uploadModal={
+          <UploadSalesModal
+            open={openUpload}
+            onClose={() => setOpenUpload(false)}
+            onUploaded={() => setRefresh((r) => r + 1)}
+          />
+        }
+      />
+    </PageLayout>
   );
 }

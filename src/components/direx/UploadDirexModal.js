@@ -3,7 +3,7 @@ import {
   Button, TextField, MenuItem, Stack,
 } from "@mui/material";
 import { useState } from "react";
-import { WAREHOUSE_TYPES } from "../../shared/constants";
+import { MONTHS, YEARS } from "../../shared/constants";
 import FilePicker from "../../shared/FilePicker";
 import ReplaceConfirmDialog from "../../shared/ReplaceConfirmDialog";
 import AppSnackbar from "../../shared/AppSnackbar";
@@ -11,17 +11,18 @@ import { useSnackbar } from "../../shared/useSnackbar";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function UploadWarehouseModal({ open, onClose, onUploaded }) {
+export default function UploadDirexModal({ open, onClose, onUploaded }) {
   const [file, setFile] = useState(null);
-  const [type, setType] = useState("");
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
   const [confirmReplace, setConfirmReplace] = useState(false);
   const [loading, setLoading] = useState(false);
   const { snackbar, showSuccess, showError, closeSnackbar } = useSnackbar();
 
-  const reset = () => { setFile(null); setType(""); setConfirmReplace(false); };
+  const reset = () => { setFile(null); setYear(""); setMonth(""); setConfirmReplace(false); };
 
   const checkAndUpload = async () => {
-    const res = await fetch(`${API_URL}/files/exists?category=warehouse&filename=${encodeURIComponent(file.name)}`);
+    const res = await fetch(`${API_URL}/files/exists?category=direx&filename=${encodeURIComponent(file.name)}`);
     const data = await res.json();
     data.exists ? setConfirmReplace(true) : doUpload();
   };
@@ -32,15 +33,16 @@ export default function UploadWarehouseModal({ open, onClose, onUploaded }) {
       setConfirmReplace(false);
       const fd = new FormData();
       fd.append("file", file);
-      fd.append("category", "warehouse");
-      fd.append("type", type);
+      fd.append("category", "direx");
+      fd.append("year", year);
+      fd.append("month", month);
 
       const res = await fetch(`${API_URL}/upload`, { method: "POST", body: fd });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         throw new Error(err.detail || "Upload failed");
       }
-      showSuccess("Warehouse file uploaded successfully");
+      showSuccess("Direx report uploaded successfully");
       onUploaded?.();
       onClose();
       reset();
@@ -54,18 +56,21 @@ export default function UploadWarehouseModal({ open, onClose, onUploaded }) {
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-        <DialogTitle>Add Warehouse File</DialogTitle>
+        <DialogTitle>Add Direx Report</DialogTitle>
         <DialogContent>
           <Stack spacing={2} mt={1}>
             <FilePicker file={file} onFile={setFile} />
-            <TextField select label="File Type" value={type} onChange={(e) => setType(e.target.value)} fullWidth>
-              {WAREHOUSE_TYPES.map((t) => <MenuItem key={t.value} value={t.value}>{t.label}</MenuItem>)}
+            <TextField select label="Year" value={year} onChange={(e) => setYear(e.target.value)} fullWidth>
+              {YEARS.map((y) => <MenuItem key={y} value={y}>{y}</MenuItem>)}
+            </TextField>
+            <TextField select label="Month" value={month} onChange={(e) => setMonth(e.target.value)} fullWidth>
+              {MONTHS.map((m) => <MenuItem key={m} value={m}>{m}</MenuItem>)}
             </TextField>
           </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
-          <Button variant="contained" disabled={!file || !type || loading} onClick={checkAndUpload}>
+          <Button variant="contained" disabled={!file || !year || !month || loading} onClick={checkAndUpload}>
             Upload
           </Button>
         </DialogActions>
