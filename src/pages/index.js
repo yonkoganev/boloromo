@@ -1,5 +1,5 @@
 import {
-  Box, Typography, Paper, Divider, Grid,
+  Box, Typography, Paper, Divider,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
@@ -7,6 +7,7 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import DescriptionIcon from "@mui/icons-material/Description";
+import ArticleIcon from "@mui/icons-material/Article";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -38,6 +39,13 @@ const NAV_CARDS = [
     icon: DescriptionIcon,
     gradient: "linear-gradient(135deg, #5C2E00 0%, #8B4513 100%)",
     desc: "Invoices & credit notes from Amazon",
+  },
+  {
+    label: "Temu Documents",
+    href: "/temu-documents",
+    icon: ArticleIcon,
+    gradient: "linear-gradient(135deg, #1B5E20 0%, #388E3C 100%)",
+    desc: "Invoices & credit notes from Temu",
   },
   {
     label: "Final Reports",
@@ -89,14 +97,7 @@ export default function IndexPage() {
 
       {/* HERO */}
       <Box px={{ xs: 4, md: 8 }} pb={6}>
-        <Typography
-          variant="h4"
-          sx={{
-            color: "#fff",
-            fontWeight: 800,
-            mb: 0.5,
-          }}
-        >
+        <Typography variant="h4" sx={{ color: "#fff", fontWeight: 800, mb: 0.5 }}>
           Hello, Angel 👋
         </Typography>
         <Typography sx={{ color: "rgba(255,255,255,0.5)", fontSize: 15 }}>
@@ -122,7 +123,7 @@ export default function IndexPage() {
         {/* CARDS GRID */}
         <Box
           display="grid"
-          gridTemplateColumns={{ xs: "1fr 1fr", md: "repeat(5, 1fr)" }}
+          gridTemplateColumns={{ xs: "1fr 1fr", md: "repeat(6, 1fr)" }}
           gap={3}
           mb={6}
         >
@@ -145,7 +146,6 @@ export default function IndexPage() {
                 },
               }}
             >
-              {/* Gradient top bar */}
               <Box sx={{ background: gradient, height: 6 }} />
               <Box p={2.5}>
                 <Box
@@ -182,7 +182,7 @@ export default function IndexPage() {
           {[
             { step: "1", text: "Upload sales report from marketplace" },
             { step: "2", text: "Upload Direx delivery cost report" },
-            { step: "3", text: "Upload Amazon invoices & credit notes" },
+            { step: "3", text: "Upload marketplace invoices & credit notes" },
             { step: "4", text: "Generate final accounting report" },
           ].map(({ step, text }) => (
             <Box

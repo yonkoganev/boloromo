@@ -3,17 +3,17 @@ import PageLayout from "../shared/PageLayout";
 import TreeFileManager from "../shared/TreeFileManager";
 import UploadAmazonDocModal from "../components/amazon-documents/UploadAmazonDocModal";
 
-export default function AmazonDocumentsPage() {
+export default function TemuDocumentsPage() {
   const [openUpload, setOpenUpload] = useState(false);
 
   return (
-    <PageLayout title="Amazon Documents">
+    <PageLayout title="Temu Documents">
       <TreeFileManager
         category="amazon_document"
         treeMode="company-year-month"
         filterFn={(f, s) =>
           f.company === s.company &&
-          f.marketPlace === "Amazon" &&
+          f.marketPlace === "Temu" &&
           f.year === s.year &&
           f.month === s.month
         }
@@ -24,7 +24,7 @@ export default function AmazonDocumentsPage() {
             open={openUpload}
             onClose={() => setOpenUpload(false)}
             onUploaded={() => {}}
-            marketplace="Amazon"
+            marketplace="Temu"
           />
         }
       />

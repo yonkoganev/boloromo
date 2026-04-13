@@ -7,13 +7,15 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
 import DescriptionIcon from "@mui/icons-material/Description";
+import ArticleIcon from "@mui/icons-material/Article";
 
 const NAV_ITEMS = [
-  { label: "Sales Reports", href: "/sales-reports", icon: <AssessmentIcon fontSize="small" /> },
-  { label: "Direx Reports", href: "/direx-reports", icon: <ReceiptLongIcon fontSize="small" /> },
-  { label: "Warehouse Files", href: "/warehouses-data", icon: <InventoryIcon fontSize="small" /> },
+  { label: "Sales Reports",    href: "/sales-reports",    icon: <AssessmentIcon fontSize="small" /> },
+  { label: "Direx Reports",    href: "/direx-reports",    icon: <ReceiptLongIcon fontSize="small" /> },
+  { label: "Warehouse Files",  href: "/warehouses-data",  icon: <InventoryIcon fontSize="small" /> },
   { label: "Amazon Documents", href: "/amazon-documents", icon: <DescriptionIcon fontSize="small" /> },
-  { label: "Final Reports", href: "/accounting", icon: <FactCheckIcon fontSize="small" /> },
+  { label: "Temu Documents",   href: "/temu-documents",   icon: <ArticleIcon fontSize="small" /> },
+  { label: "Final Reports",    href: "/accounting",       icon: <FactCheckIcon fontSize="small" /> },
 ];
 
 export default function PageLayout({ title, children }) {
@@ -110,7 +112,6 @@ export default function PageLayout({ title, children }) {
 
       {/* MAIN CONTENT */}
       <Box ml="240px" flex={1} p={4}>
-        {/* Page header */}
         <Box mb={4}>
           <Typography
             variant="h5"

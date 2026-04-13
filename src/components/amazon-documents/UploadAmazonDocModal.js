@@ -2,8 +2,9 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Button, TextField, MenuItem, Stack, Typography, Box, Chip,
 } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
-import { COMPANIES, MARKETPLACES, MONTHS, YEARS, AMAZON_DOCUMENT_TYPES } from "../../shared/constants";
+import { COMPANIES, MONTHS, YEARS, AMAZON_DOCUMENT_TYPES } from "../../shared/constants";
 import FilePicker from "../../shared/FilePicker";
 import AppSnackbar from "../../shared/AppSnackbar";
 import { useSnackbar } from "../../shared/useSnackbar";
@@ -12,10 +13,9 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function UploadAmazonDocModal({ open, onClose, onUploaded }) {
+export default function UploadAmazonDocModal({ open, onClose, onUploaded, marketplace = "Amazon" }) {
   const [files, setFiles] = useState([]);
   const [company, setCompany] = useState("");
-  const [marketPlace, setMarketPlace] = useState("");
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [docType, setDocType] = useState("");
@@ -23,7 +23,7 @@ export default function UploadAmazonDocModal({ open, onClose, onUploaded }) {
   const { snackbar, showSuccess, showError, closeSnackbar } = useSnackbar();
 
   const reset = () => {
-    setFiles([]); setCompany(""); setMarketPlace("");
+    setFiles([]); setCompany("");
     setYear(""); setMonth(""); setDocType("");
   };
 
@@ -50,7 +50,7 @@ export default function UploadAmazonDocModal({ open, onClose, onUploaded }) {
         fd.append("category", "amazon_document");
         fd.append("type", docType);
         fd.append("company", company);
-        fd.append("marketplace", marketPlace);
+        fd.append("marketplace", marketplace);
         fd.append("year", year);
         fd.append("month", month);
 
@@ -75,12 +75,12 @@ export default function UploadAmazonDocModal({ open, onClose, onUploaded }) {
     }
   };
 
-  const canSubmit = files.length > 0 && company && marketPlace && year && month && docType && !loading;
+  const canSubmit = files.length > 0 && company && year && month && docType && !loading;
 
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-        <DialogTitle>Upload Amazon Documents</DialogTitle>
+        <DialogTitle>Upload {marketplace} Documents</DialogTitle>
         <DialogContent>
           <Stack spacing={2} mt={1}>
 
@@ -121,7 +121,7 @@ export default function UploadAmazonDocModal({ open, onClose, onUploaded }) {
             </TextField>
 
             <Typography fontSize={12} color="text.secondary">
-              All selected files will be uploaded with the same type, company, marketplace, year and month.
+              All selected files will be uploaded with the same type, company, year and month.
             </Typography>
           </Stack>
         </DialogContent>
